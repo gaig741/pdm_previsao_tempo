@@ -7,6 +7,7 @@ import {
   TextInput, 
   View } from 'react-native';
 import {
+  PROTOCOL,
   LANGUAGE,
   UNITS,
   CNT,
@@ -16,8 +17,12 @@ import {
 
 export default function App() {
 
-  const [previsoes, setPrevisoes] = useState([])
+  const obterPrevisoes = () => {
+    const endPoint = `${PROTOCOL}://${BASE_URL}?lang=${LANGUAGE}&units=${UNITS}&cnt=${CNT}&appid=${APPID}&q=${cidade}`
+    console.log(endPoint)
+  }
 
+  const [previsoes, setPrevisoes] = useState([])
 
   const [cidade, setCidade] = useState('')
   const capturarCidade = (cidadeDigitada) => {
@@ -34,6 +39,7 @@ export default function App() {
           />    
           <Button 
             title="OK"
+            onPress={obterPrevisoes}
           />
         </View>
       <FlatList
