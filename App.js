@@ -19,7 +19,13 @@ export default function App() {
 
   const obterPrevisoes = () => {
     const endPoint = `${PROTOCOL}://${BASE_URL}?lang=${LANGUAGE}&units=${UNITS}&cnt=${CNT}&appid=${APPID}&q=${cidade}`
-    console.log(endPoint)
+    fetch(endPoint)
+    .then(response => {
+      return response.json()
+    })
+    .then(dados => {
+      setPrevisoes(dados['list'])
+    })
   }
 
   const [previsoes, setPrevisoes] = useState([])
@@ -35,7 +41,7 @@ export default function App() {
             style={styles.cidadeTextInput}
             placeholder="Digite o nome de uma cidade"
             value={cidade}
-            onChangeText={capturarCidade}      //1:05:00 DA AULA DO BOSSINI
+            onChangeText={capturarCidade}      //2:04:45 DA AULA DO BOSSINI
           />    
           <Button 
             title="OK"
