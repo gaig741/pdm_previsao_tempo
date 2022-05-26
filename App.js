@@ -15,7 +15,14 @@ import {
   BASE_URL
 } from '@env'
 
+import PrevisaoItem from './components/PrevisaoItem';
+
 export default function App() {
+  const [cidade, setCidade] = useState('')
+  const [previsoes, setPrevisoes] = useState([])
+  const capturarCidade = (cidadeDigitada) => {
+    setCidade(cidadeDigitada)
+  }
 
   const obterPrevisoes = () => {
     const endPoint = `${PROTOCOL}://${BASE_URL}?lang=${LANGUAGE}&units=${UNITS}&cnt=${CNT}&appid=${APPID}&q=${cidade}`
@@ -27,13 +34,6 @@ export default function App() {
       setPrevisoes(dados['list'])
     })
   }
-
-  const [previsoes, setPrevisoes] = useState([])
-
-  const [cidade, setCidade] = useState('')
-  const capturarCidade = (cidadeDigitada) => {
-    setCidade(cidadeDigitada)
-  }
   return (
     <View style={styles.containerView}>
         <View style={styles.entradaView}>
@@ -41,19 +41,21 @@ export default function App() {
             style={styles.cidadeTextInput}
             placeholder="Digite o nome de uma cidade"
             value={cidade}
-            onChangeText={capturarCidade}      //2:04:45 DA AULA DO BOSSINI
+            onChangeText={capturarCidade}      
           />    
           <Button 
             title="OK"
             onPress={obterPrevisoes}
           />
         </View>
-      <FlatList
-        data={previsoes}
-        renderItem={p => (
-          <Text>{JSON.stringify(p)}</Text>
-        )}
-      />
+        <View style={{alignItems: 'center'}}> 
+        <FlatList
+            data={previsoes}
+            renderItem={p => (
+              <PrevisaoItem previsao={p.item}/>
+            )}
+          />
+        </View>
     </View>
   );
 }
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     padding: 40,
   },
   entradaView: {
-    marginTop: 8,
+    marginBottom: 8,
   },
   cidadeTextInput: {
     padding: 12,
